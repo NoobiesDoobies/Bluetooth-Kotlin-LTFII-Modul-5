@@ -18,30 +18,57 @@
         android:layout_marginBottom="20dp"/>
 
     <TextView
-        android:id="@+id/angleText"
+        android:id="@+id/angleTextServo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Angle: 0"
+        android:text="Angle Servo: 0"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/slider"
-        app:layout_constraintEnd_toEndOf="@+id/slider"
-        app:layout_constraintStart_toStartOf="@+id/slider" />
+        app:layout_constraintBottom_toTopOf="@+id/sliderServo"
+        app:layout_constraintEnd_toEndOf="@+id/sliderServo"
+        app:layout_constraintStart_toStartOf="@+id/sliderServo" />
+
+
+    <SeekBar
+        android:id="@+id/sliderStepper"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.293" />
+
+    <TextView
+        android:id="@+id/angleTextStepper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Angle Stepper: 0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/sliderStepper"
+        app:layout_constraintEnd_toEndOf="@+id/sliderStepper"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="@+id/sliderStepper" />
 
     <EditText
         android:id="@+id/inputBluetooth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="222dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textNoSuggestions"
         android:text="Bluetooth Name"
-        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/btnConnect"
         app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="@+id/btnConnect" />
 
+
     <SeekBar
-        android:id="@+id/slider"
+        android:id="@+id/sliderServo"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_margin="20dp"
@@ -49,4 +76,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

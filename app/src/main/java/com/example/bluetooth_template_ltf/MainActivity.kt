@@ -33,6 +33,8 @@ import com.jakewharton.rxbinding3.widget.changes
 
 
 class MainActivity : BTActivityWrapper() {
+    private var angleServo: Double = 0.0
+    private var angleStepper: Double = 0.0
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private var lastMessageSentTime: Long = 0
@@ -46,23 +48,39 @@ class MainActivity : BTActivityWrapper() {
         initBluetooth()
 
         binding.btnConnect.setOnClickListener {
-                connectBluetooth(binding.inputBluetooth.text.toString())
+            connectBluetooth(binding.inputBluetooth.text.toString())
         }
 
-        binding.slider.changes()
+        binding.sliderServo.changes()
             .debounce(100, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { value ->
-                var angleValue = (value.toDouble()/100)*180
-                var angleString = String.format("%.1f", angleValue)
+                angleServo = (value.toDouble()/100)*180
+                var angleString = String.format("%.1f %.1f", angleServo, angleStepper)
                 if (connected) {
                     sendBluetoothMessage(angleString)
-                    binding.angleText.text = "Angle: $angleString"
+                    binding.angleTextServo.text = String.format("Angle Servo: %.1f", angleServo)
                 } else {
                     alert("Tidak terkoneksi dengan bluetooth device")
                 }
             }
+
+        binding.sliderStepper.changes()
+            .debounce(100, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { value ->
+                angleStepper = (value.toDouble()/100)*180
+                var angleString = String.format("%.1f %.1f", angleServo, angleStepper)
+                if (connected) {
+                    sendBluetoothMessage(angleString)
+                    binding.angleTextStepper.text = String.format("Angle Stepper: %.1f", angleStepper)
+                } else {
+                    alert("Tidak terkoneksi dengan bluetooth device")
+                }
+            }
+
 
         // Ini buat check bluetooth connection,
         // lebih bagusnya kalau pake observables daripada
@@ -70,10 +88,12 @@ class MainActivity : BTActivityWrapper() {
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object : Runnable {
             override fun run() {
-                if(connected && !binding.slider.isEnabled) {
-                    binding.slider.isEnabled = true
+                if(connected && !binding.sliderServo.isEnabled) {
+                    binding.sliderServo.isEnabled = true
+                    binding.sliderStepper.isEnabled = true
                 } else if (!connected) {
-                    binding.slider.isEnabled = false
+                    binding.sliderServo.isEnabled = false
+                    binding.sliderStepper.isEnabled = false
                 }
                 mainHandler.postDelayed(this, 200)
             }
